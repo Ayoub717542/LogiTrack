@@ -21,25 +21,19 @@ public class CommandeController {
     public Commande createCommande(@RequestBody Commande commande) {
         return commandeService.saveCommande(commande);
     }
-
-    // GET /api/orders
     @GetMapping
     public List<Commande> getAllCommandes() {
         return commandeService.getAllCommandes();
     }
-
-    // GET /api/orders/{id}
     @GetMapping("/{id}")
     public Commande getCommande(@PathVariable Integer id) {
         return commandeService.getCommandeById(id);
     }
-
     // GET /api/orders/client/{clientId}
     @GetMapping("/client/{clientId}")
     public List<Commande> getByClient(@PathVariable Integer clientId) {
         return commandeService.getCommandesByClient(clientId);
     }
-
     // PUT /api/orders/{id}/status
     @PutMapping("/{id}/status")
     public Commande updateStatus(@PathVariable Integer id, @RequestParam String status) {

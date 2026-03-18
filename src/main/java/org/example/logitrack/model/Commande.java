@@ -18,11 +18,11 @@ public class Commande {
 
     @ManyToOne
     @JoinColumn(name = "client_id")
-    @JsonBackReference("client-commandes")   // breaks the Client ↔ Commande cycle
+    @JsonBackReference("client-commandes")
     private Client client;
 
     @OneToMany(mappedBy = "commande")
-    @JsonManagedReference("commande-lignes") // owns the Commande ↔ LigneCommande cycle
+    @JsonManagedReference("commande-lignes")
     private List<LigneCommande> lignes;
 
 
