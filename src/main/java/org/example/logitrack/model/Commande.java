@@ -3,7 +3,9 @@ package org.example.logitrack.model;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import java.util.Date;
+
+import java.time.LocalDate;
+
 import java.util.List;
 
 @Entity
@@ -13,7 +15,7 @@ public class Commande {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private Date dateCommande;
+    private LocalDate dateCommande;
     private String statut;
 
     @ManyToOne
@@ -30,8 +32,8 @@ public class Commande {
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
-    public Date getDateCommande() { return dateCommande; }
-    public void setDateCommande(Date dateCommande) { this.dateCommande = dateCommande; }
+    public LocalDate getDateCommande() { return dateCommande; }
+    public void setDateCommande(LocalDate dateCommande) { this.dateCommande = dateCommande; }
 
     public String getStatut() { return statut; }
     public void setStatut(String statut) { this.statut = statut; }

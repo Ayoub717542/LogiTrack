@@ -1,6 +1,8 @@
 package org.example.logitrack.service;
 
+import org.example.logitrack.model.Client;
 import org.example.logitrack.model.Commande;
+import org.example.logitrack.repository.ClientRepository;
 import org.example.logitrack.repository.CommandeRepository;
 import org.springframework.stereotype.Service;
 
@@ -10,9 +12,10 @@ import java.util.List;
 public class CommandeService {
 
     private final CommandeRepository commandeRepository;
-
-    public CommandeService(CommandeRepository commandeRepository) {
+    private final ClientRepository clientRepository;
+    public CommandeService(CommandeRepository commandeRepository, ClientRepository clientRepository) {
         this.commandeRepository = commandeRepository;
+        this.clientRepository = clientRepository;
     }
 
     public Commande saveCommande(Commande commande) {
@@ -30,4 +33,7 @@ public class CommandeService {
     public List<Commande> getCommandesByClient(Integer clientId) {
         return commandeRepository.findByClientId(clientId);
     }
+
+    public Client getClientById(Integer clientId) {
+        return clientRepository.findById(clientId).orElse(null);    }
 }

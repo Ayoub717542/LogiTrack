@@ -16,9 +16,16 @@ public class CommandeController {
         this.commandeService = commandeService;
     }
 
-    // POST /api/orders
-    @PostMapping
-    public Commande createCommande(@RequestBody Commande commande) {
+    // POST /api/commandes
+    @PostMapping("/client/{clientId}")
+    public Commande createCommandeForClient(@PathVariable Integer clientId) {
+        Commande commande = new Commande();
+
+        commande.setClient(commandeService.getClientById(clientId));
+
+        commande.setStatut("EN_ATTENTE");
+        commande.setDateCommande(java.time.LocalDate.now());
+
         return commandeService.saveCommande(commande);
     }
     @GetMapping
@@ -29,12 +36,12 @@ public class CommandeController {
     public Commande getCommande(@PathVariable Integer id) {
         return commandeService.getCommandeById(id);
     }
-    // GET /api/orders/client/{clientId}
+    // GET /api/commandes/client/{clientId}
     @GetMapping("/client/{clientId}")
     public List<Commande> getByClient(@PathVariable Integer clientId) {
         return commandeService.getCommandesByClient(clientId);
     }
-    // PUT /api/orders/{id}/status
+    // PUT /api/commandes/{id}/status
     @PutMapping("/{id}/status")
     public Commande updateStatus(@PathVariable Integer id, @RequestParam String status) {
         Commande commande = commandeService.getCommandeById(id);
