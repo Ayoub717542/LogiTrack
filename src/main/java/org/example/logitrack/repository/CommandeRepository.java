@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface CommandeRepository extends JpaRepository<Commande, Integer> {
-
     List<Commande> findByClientId(Integer clientId);
+
 }

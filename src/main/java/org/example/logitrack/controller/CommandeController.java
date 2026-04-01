@@ -15,7 +15,6 @@ public class CommandeController {
     public CommandeController(CommandeService commandeService) {
         this.commandeService = commandeService;
     }
-
     // POST /api/commandes
     @PostMapping("/client/{clientId}")
     public Commande createCommandeForClient(@PathVariable Integer clientId) {
