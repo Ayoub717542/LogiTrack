@@ -3,12 +3,21 @@ package org.example.logitrack.model;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
 import java.util.List;
 
+
 @Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Commande {
 
     @Id
@@ -27,20 +36,4 @@ public class Commande {
     @JsonManagedReference("commande-lignes")
     private List<LigneCommande> lignes;
 
-
-
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
-
-    public LocalDate getDateCommande() { return dateCommande; }
-    public void setDateCommande(LocalDate dateCommande) { this.dateCommande = dateCommande; }
-
-    public String getStatut() { return statut; }
-    public void setStatut(String statut) { this.statut = statut; }
-
-    public Client getClient() { return client; }
-    public void setClient(Client client) { this.client = client; }
-
-    public List<LigneCommande> getLignes() { return lignes; }
-    public void setLignes(List<LigneCommande> lignes) { this.lignes = lignes; }
 }

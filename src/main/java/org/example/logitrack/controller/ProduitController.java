@@ -16,7 +16,6 @@ public class ProduitController {
         this.produitService = produitService;
     }
 
-
     @PostMapping
     public Produit addProduit(@RequestBody Produit produit) {
         return produitService.saveProduit(produit);
