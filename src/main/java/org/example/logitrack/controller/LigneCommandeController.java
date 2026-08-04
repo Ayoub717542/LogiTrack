@@ -1,6 +1,6 @@
 package org.example.logitrack.controller;
 
-import org.example.logitrack.DTO.ligneCommandeDTO;
+import org.example.logitrack.DTO.LigneCommandeRequestDTO;
 import org.example.logitrack.model.Commande;
 import org.example.logitrack.model.LigneCommande;
 import org.example.logitrack.model.Produit;
@@ -25,7 +25,7 @@ public class LigneCommandeController {
     }
     @PostMapping("/{orderId}/products")
     public LigneCommande addProductToOrder(@PathVariable Integer orderId,
-                                           @RequestBody ligneCommandeDTO dto) {
+                                           @RequestBody LigneCommandeRequestDTO dto) {
 
         Commande commande = commandeService.getCommandeById(orderId);
         Produit produit = produitService.getProduitById(dto.productId);
