@@ -9,6 +9,6 @@ import org.mapstruct.Mapper;
 public interface ProduitMapper
 {
     Produit toEntity(ProduitRequestDTO dto);
-    ProduitResponceDTO ToDto(Produit produit);
+    ProduitResponceDTO toDto(Produit produit);
 
 }

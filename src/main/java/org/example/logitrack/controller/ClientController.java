@@ -1,35 +1,49 @@
 package org.example.logitrack.controller;
 
-import org.example.logitrack.model.Client;
-import org.example.logitrack.service.ClientService;
+import lombok.RequiredArgsConstructor;
+import org.example.logitrack.DTO.ClientRequestDTO;
+import org.example.logitrack.DTO.ClientResponceDTO;
+import org.example.logitrack.service.serviceImpl.ClientService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/clients")
+@RequiredArgsConstructor
 public class ClientController {
+
     private final ClientService clientService;
-    public ClientController(ClientService clientService) {
-        this.clientService = clientService;
+
+
+    @PostMapping("/addClient")
+    public ResponseEntity<ClientResponceDTO> addClient(@RequestBody ClientRequestDTO clientRequestDTO) {
+        return ResponseEntity.ok(clientService.saveClient(clientRequestDTO));
     }
-    @PostMapping
-    public Client addClient(@RequestBody Client client) {
-        return clientService.saveClient(client);
+    @GetMapping("/getAllClientPagination")
+    public ResponseEntity<Page<ClientResponceDTO>> getAllClients(
+            @RequestParam (defaultValue = "1") int PageNumber,
+            @RequestParam (defaultValue = "5") int PageSize,
+            @RequestParam (defaultValue = "nom") String SortBy,
+            @RequestParam (defaultValue = "asc") String SortDir
+    ) {
+        Sort sort = SortDir.equalsIgnoreCase("asc") ? Sort.by(SortBy).ascending() : Sort.by(SortBy).descending();
+        Pageable pageable = PageRequest.of(PageNumber-1,PageSize,sort);
+        Page<ClientResponceDTO> rs =clientService.getAllClients(pageable);
+        return ResponseEntity.ok(rs);
     }
 
-    @GetMapping
-    public List<Client> getAllClients() {
-        return clientService.getAllClients();
+    @GetMapping("/getClientById/{id}")
+    public ResponseEntity<ClientResponceDTO> getClient(@PathVariable Integer id) {
+        return ResponseEntity.ok(clientService.getClientById(id)
+        );
     }
 
-    @GetMapping("/{id}")
-    public Client getClient(@PathVariable Integer id) {
-        return clientService.getClientById(id);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteClient(@PathVariable Integer id) {
-        clientService.deleteClient(id);
+    @DeleteMapping("/deleteClient/{id}")
+    public ResponseEntity<Boolean> deleteClient(@PathVariable Integer id) {
+        return ResponseEntity.ok(clientService.deleteClient(id));
     }
 }

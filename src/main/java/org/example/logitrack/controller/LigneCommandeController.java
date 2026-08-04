@@ -1,14 +1,22 @@
 package org.example.logitrack.controller;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.example.logitrack.DTO.LigneCommandeRequestDTO;
-import org.example.logitrack.model.Commande;
-import org.example.logitrack.model.LigneCommande;
-import org.example.logitrack.model.Produit;
-import org.example.logitrack.service.CommandeService;
-import org.example.logitrack.service.LigneCommandeService;
-import org.example.logitrack.service.ProduitService;
+import org.example.logitrack.DTO.LigneCommandeResponceDTO;
+
+import org.example.logitrack.service.serviceImpl.CommandeService;
+import org.example.logitrack.service.serviceImpl.LigneCommandeService;
+import org.example.logitrack.service.serviceImpl.ProduitService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Getter
+@Setter
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/commandes")
 public class LigneCommandeController {
@@ -16,25 +24,24 @@ public class LigneCommandeController {
     private final LigneCommandeService ligneCommandeService;
     private final CommandeService commandeService;
     private final ProduitService produitService;
-    public LigneCommandeController(LigneCommandeService ligneCommandeService,
-                                   CommandeService commandeService,
-                                   ProduitService produitService) {
-        this.ligneCommandeService = ligneCommandeService;
-        this.commandeService = commandeService;
-        this.produitService = produitService;
+
+    @PostMapping("/addProductToOrder/{orderId}/products")
+    public ResponseEntity<LigneCommandeResponceDTO> addProductToOrder(@PathVariable Integer orderId, @RequestBody LigneCommandeRequestDTO dto) {
+        return ResponseEntity.ok( ligneCommandeService.saveLigne(orderId, dto) );
     }
-    @PostMapping("/{orderId}/products")
-    public LigneCommande addProductToOrder(@PathVariable Integer orderId,
-                                           @RequestBody LigneCommandeRequestDTO dto) {
-
-        Commande commande = commandeService.getCommandeById(orderId);
-        Produit produit = produitService.getProduitById(dto.productId);
-
-        LigneCommande ligne = new LigneCommande();
-        ligne.setCommande(commande);
-        ligne.setProduit(produit);
-        ligne.setQuantite(dto.quantite);
-
-        return ligneCommandeService.saveLigne(ligne);
+    @GetMapping("/lignes")
+    public ResponseEntity<Page<LigneCommandeResponceDTO>> getAllLignes(Pageable pageable)
+    {
+        return ResponseEntity.ok( ligneCommandeService.getAllLignes(pageable) );
+    }
+    @GetMapping("/lignes/{id}")
+    public ResponseEntity<LigneCommandeResponceDTO> getLigneById( @PathVariable Integer id)
+    {
+        return ResponseEntity.ok( ligneCommandeService.getLigneById(id) );
+    }
+    @DeleteMapping("deleteLigne/lignes/{id}")
+    public ResponseEntity<Boolean> deleteLigne( @PathVariable Integer id)
+    {
+        return ResponseEntity.ok( ligneCommandeService.deleteLigne(id) );
     }
 }
