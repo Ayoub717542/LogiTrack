@@ -35,5 +35,4 @@ public class Commande {
     @OneToMany(mappedBy = "commande")
     @JsonManagedReference("commande-lignes")
     private List<LigneCommande> lignes;
-
 }

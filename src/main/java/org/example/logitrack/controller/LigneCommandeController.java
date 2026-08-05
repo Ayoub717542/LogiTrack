@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @Setter
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/commandes")
+@RequestMapping("/api/ligneCommande")
 public class LigneCommandeController {
 
     private final LigneCommandeService ligneCommandeService;

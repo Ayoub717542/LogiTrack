@@ -37,7 +37,7 @@ public class CommandeService implements CommandeInterface {
 
     public Page<CommandeResponceDTO> getCommandesByClient(Integer clientId, Pageable pageable) {
         clientRepository.findById(clientId).orElseThrow(() -> new RuntimeException("No client found with id " + clientId));
-        return commandeRepository.findByClientId(clientId, pageable)
+        return commandeRepository.findById(clientId, pageable)
                 .map(commande -> commandeMapper.toDto(commande));
     }
 

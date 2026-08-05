@@ -14,6 +14,4 @@ public class ProduitRequestDTO {
     private String categorie;
     private double prix;
     private int quantiteStock;
-    private List<Integer> ligneIds;
-
 }

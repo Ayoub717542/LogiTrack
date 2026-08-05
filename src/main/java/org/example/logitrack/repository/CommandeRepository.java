@@ -11,6 +11,6 @@ import java.util.List;
 
 @Repository
 public interface CommandeRepository extends JpaRepository<Commande, Integer> {
-    Page<Commande> findByClientId(Integer clientId, Pageable pageable);
+    Page<Commande> findById(Integer id, Pageable pageable);
 
 }

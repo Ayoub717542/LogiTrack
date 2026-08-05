@@ -21,7 +21,7 @@ public class ClientService implements ClientInterface {
 
 
     public ClientResponceDTO saveClient(ClientRequestDTO clientRequestDTO) {
-        if(clientRepository.findByClientId(clientRequestDTO.getEmail()).isPresent()){
+        if(clientRepository.findByEmail(clientRequestDTO.getEmail()).isPresent()){
             throw new RuntimeException("Email already exists!");
         }
         Client client = new Client();
