@@ -18,7 +18,6 @@ public class ProduitController {
 
     private final ProduitService produitService;
 
-
     @PostMapping("/addProduct")
     public ResponseEntity<ProduitResponceDTO> addProduit(@RequestBody ProduitRequestDTO produitRequestDTO) {
         return ResponseEntity.ok(produitService.saveProduit(produitRequestDTO));
@@ -29,7 +28,6 @@ public class ProduitController {
             @RequestParam (defaultValue = "1") int pageNumber,
             @RequestParam (defaultValue = "5") int pageSize,
             @RequestParam (defaultValue = "prix") String sortBy,
-
             @RequestParam (defaultValue = "asc") String  sortDir
     ){
         Sort sort = sortDir.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() :Sort.by(sortBy).descending();

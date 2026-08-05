@@ -26,7 +26,6 @@ public class CommandeController {
 
     @GetMapping("/commandes")
     public ResponseEntity<Page<CommandeResponceDTO>> getAllCommandes(
-
             @RequestParam (defaultValue = "1") int pageNumber,
             @RequestParam (defaultValue = "5") int pageSize,
             @RequestParam (defaultValue = "dateCommande") String sortBy,

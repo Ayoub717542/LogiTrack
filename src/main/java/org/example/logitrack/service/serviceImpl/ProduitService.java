@@ -30,7 +30,6 @@ public class ProduitService implements ProduitInterface {
 
 
     public Page<ProduitResponceDTO> getAllProduits(Pageable pageable) {
-
         return produitRepository.findAll(pageable)
                 .map(produit -> produitMapper.toDto(produit));
     }
