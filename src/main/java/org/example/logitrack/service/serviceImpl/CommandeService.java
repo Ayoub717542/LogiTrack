@@ -3,6 +3,7 @@ package org.example.logitrack.service.serviceImpl;
 import lombok.RequiredArgsConstructor;
 import org.example.logitrack.DTO.CommandeRequestDTO;
 import org.example.logitrack.DTO.CommandeResponceDTO;
+import org.example.logitrack.Enums.Statuts;
 import org.example.logitrack.mapper.CommandeMapper;
 import org.example.logitrack.model.Commande;
 import org.example.logitrack.repository.ClientRepository;
@@ -47,7 +48,7 @@ public class CommandeService implements CommandeInterface {
         return true;
     }
 
-    public CommandeResponceDTO updateStatus(Integer id, String status) {
+    public CommandeResponceDTO updateStatus(Integer id, Statuts status) {
     Commande commande = commandeRepository.findById(id).orElseThrow(()-> new RuntimeException("no command by id "+id));
     commande.setStatut(status);
     return commandeMapper.toDto(commandeRepository.save(commande));

@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.example.logitrack.Enums.Statuts;
 
 import java.time.LocalDate;
 
@@ -25,7 +26,8 @@ public class Commande {
     private int id;
 
     private LocalDate dateCommande;
-    private String statut;
+    @Enumerated(EnumType.STRING)
+    private Statuts statut;
 
     @ManyToOne
     @JoinColumn(name = "client_id")

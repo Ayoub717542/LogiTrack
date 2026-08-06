@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
@@ -18,11 +19,13 @@ public class ProduitController {
 
     private final ProduitService produitService;
 
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
     @PostMapping("/addProduct")
     public ResponseEntity<ProduitResponceDTO> addProduit(@RequestBody ProduitRequestDTO produitRequestDTO) {
         return ResponseEntity.ok(produitService.saveProduit(produitRequestDTO));
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','AGENT')")
     @GetMapping("/products")
     public ResponseEntity<Page<ProduitResponceDTO>> getAllProduits(
             @RequestParam (defaultValue = "1") int pageNumber,
@@ -36,10 +39,12 @@ public class ProduitController {
         return ResponseEntity.ok(rs);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
     @GetMapping("product/{id}")
     public ResponseEntity<ProduitResponceDTO> getProduit(@PathVariable Integer id) {
         return ResponseEntity.ok(produitService.getProduitById(id));
     }
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
     @DeleteMapping("delete/{id}")
     public ResponseEntity<Boolean> deleteProduit(@PathVariable Integer id) {
         return ResponseEntity.ok(produitService.deleteProduit(id));

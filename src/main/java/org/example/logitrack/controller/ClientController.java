@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,11 +19,13 @@ public class ClientController {
 
     private final ClientService clientService;
 
-
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
     @PostMapping("/addClient")
     public ResponseEntity<ClientResponceDTO> addClient(@RequestBody ClientRequestDTO clientRequestDTO) {
         return ResponseEntity.ok(clientService.saveClient(clientRequestDTO));
     }
+
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'AGENT')")
     @GetMapping("/getAllClientPagination")
     public ResponseEntity<Page<ClientResponceDTO>> getAllClients(
             @RequestParam (defaultValue = "1") int PageNumber,
@@ -36,12 +39,13 @@ public class ClientController {
         return ResponseEntity.ok(rs);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/getClientById/{id}")
     public ResponseEntity<ClientResponceDTO> getClient(@PathVariable Integer id) {
         return ResponseEntity.ok(clientService.getClientById(id)
         );
     }
-
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'AGENT')")
     @DeleteMapping("/deleteClient/{id}")
     public ResponseEntity<Boolean> deleteClient(@PathVariable Integer id) {
         return ResponseEntity.ok(clientService.deleteClient(id));
