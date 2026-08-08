@@ -9,7 +9,7 @@ import lombok.*;
 
 public class AuthenticationRequestDTO {
     @NonNull
-    private String email;
+    private String userEmail;
     @NonNull
     private String password;
 }

@@ -10,6 +10,6 @@ import lombok.*;
 public class RegisterRequoestDTO {
     private String firstname;
     private String lastname;
-    private  String email;
+    private  String userEmail;
     private String password;
 }

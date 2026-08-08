@@ -28,7 +28,7 @@ public class AuthenticationService {
         User user = User.builder()
                 .firstName(registerRequoestDTO.getFirstname())
                 .lastName(registerRequoestDTO.getLastname())
-                .email(registerRequoestDTO.getEmail())
+                .email(registerRequoestDTO.getUserEmail())
                 .password(passwordEncoder.encode(registerRequoestDTO.getPassword()))
                 .role(Role.AGENT)
                 .build();
@@ -43,11 +43,11 @@ public class AuthenticationService {
     public  AuthenticationResponceDTO login(AuthenticationRequestDTO authenticationRequestDTO) {
        authenticationManager.authenticate(
                new UsernamePasswordAuthenticationToken(
-                       authenticationRequestDTO.getEmail(),
+                       authenticationRequestDTO.getUserEmail(),
                        authenticationRequestDTO.getPassword()
                )
        );
-       User user = userRepository.findByEmail(authenticationRequestDTO.getEmail()).orElseThrow(() -> new UsernameNotFoundException("user not found!!"));
+       User user = userRepository.findByEmail(authenticationRequestDTO.getUserEmail()).orElseThrow(() -> new UsernameNotFoundException("user not found!!"));
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponceDTO.builder()
                 .token(jwtToken)
