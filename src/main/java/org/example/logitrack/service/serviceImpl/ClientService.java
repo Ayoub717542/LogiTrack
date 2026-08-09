@@ -47,4 +47,7 @@ public class ClientService implements ClientInterface {
         clientRepository.deleteById(id);
         return true;
     }
+    public long countClient(){
+        return clientRepository.count();
+    }
 }

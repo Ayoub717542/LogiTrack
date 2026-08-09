@@ -1,8 +1,10 @@
 package org.example.logitrack.DTO;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.*;
+import org.example.logitrack.Enums.Statuts;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Getter
 @Setter
@@ -10,7 +12,8 @@ import java.util.List;
 @NoArgsConstructor
 public class CommandeRequestDTO {
     private LocalDate dateCommande;
-    private String statut;
+    @Enumerated(EnumType.STRING)
+    private Statuts statut;
     private int clientId;
 
 }

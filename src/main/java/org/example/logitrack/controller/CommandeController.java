@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.logitrack.DTO.CommandeRequestDTO;
 import org.example.logitrack.DTO.CommandeResponceDTO;
 import org.example.logitrack.Enums.Statuts;
+import org.example.logitrack.model.Commande;
 import org.example.logitrack.service.serviceImpl.CommandeService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,11 +14,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/commandes")
 public class CommandeController {
-
     private final CommandeService commandeService;
 
     @PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
@@ -58,5 +60,36 @@ public class CommandeController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Boolean> deleteCommande(@PathVariable Integer id) {
         return ResponseEntity.ok(commandeService.deleteCommande(id));
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
+    @GetMapping("/countPending")
+    public ResponseEntity<Long> countPending(){
+        return  ResponseEntity.ok(commandeService.countPending());
+    }
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
+    @GetMapping("/countShipped")
+    public ResponseEntity<Long> countShipped(){
+        return  ResponseEntity.ok(commandeService.countShipped());
+    }
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
+    @GetMapping("/countDelivered")
+    public ResponseEntity<Long> countDelivered(){
+        return  ResponseEntity.ok(commandeService.countDelivered());
+    }
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
+    @GetMapping("/countCommandes")
+    public ResponseEntity<Long> countCommandes(){
+        return  ResponseEntity.ok(commandeService.countCommandes());
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
+    @GetMapping("/recentCommandes")
+    public ResponseEntity<Page<Commande>> recentCommandes(
+            @RequestParam (defaultValue ="1") int pageNumber,
+            @RequestParam (defaultValue ="6") int pageSize
+    ){
+        Pageable pageable = PageRequest.of(pageNumber-1,pageSize);
+        return ResponseEntity.ok(commandeService.RecentCommandes(pageable));
     }
 }

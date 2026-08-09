@@ -5,6 +5,7 @@ import org.example.logitrack.DTO.CommandeRequestDTO;
 import org.example.logitrack.DTO.CommandeResponceDTO;
 import org.example.logitrack.Enums.Statuts;
 import org.example.logitrack.mapper.CommandeMapper;
+import org.example.logitrack.model.Client;
 import org.example.logitrack.model.Commande;
 import org.example.logitrack.repository.ClientRepository;
 import org.example.logitrack.repository.CommandeRepository;
@@ -12,6 +13,8 @@ import org.example.logitrack.service.interfaces.CommandeInterface;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +26,8 @@ public class CommandeService implements CommandeInterface {
 
     public CommandeResponceDTO saveCommande(CommandeRequestDTO commandeRequestDTO) {
         Commande commande = commandeMapper.toEntity(commandeRequestDTO);
+        Client client = clientRepository.findById(commandeRequestDTO.getClientId()).orElseThrow(() -> new RuntimeException("client not found"));
+        commande.setClient(client);
         return commandeMapper.toDto(commandeRepository.save(commande));
     }
 
@@ -53,5 +58,23 @@ public class CommandeService implements CommandeInterface {
     commande.setStatut(status);
     return commandeMapper.toDto(commandeRepository.save(commande));
     }
+
+    public long countPending() {
+        return commandeRepository.countByStatut(Statuts.PENDING);
+    }
+    public long countShipped() {
+        return commandeRepository.countByStatut(Statuts.SHIPPED);
+    }
+    public long countDelivered() {
+        return commandeRepository.countByStatut(Statuts.DELIVERED);
+    }
+    public long countCommandes(){
+        return commandeRepository.count();
+    }
+
+    public Page<Commande> RecentCommandes(Pageable pageable){
+        return commandeRepository.findRecentCommandes(pageable);
+    }
+
 
 }

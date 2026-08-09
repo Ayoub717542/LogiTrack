@@ -20,41 +20,27 @@ public class ProduitService implements ProduitInterface {
 
 
     public ProduitResponceDTO saveProduit(ProduitRequestDTO produitRequestDTO) {
-
         Produit produit = produitMapper.toEntity(produitRequestDTO);
-
-        return produitMapper.toDto(
-                produitRepository.save(produit)
-        );
+        return produitMapper.toDto(produitRepository.save(produit));
     }
-
 
     public Page<ProduitResponceDTO> getAllProduits(Pageable pageable) {
         return produitRepository.findAll(pageable)
                 .map(produit -> produitMapper.toDto(produit));
     }
 
-
     public ProduitResponceDTO getProduitById(Integer id) {
-
-        Produit produit = produitRepository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("No produit found with id " + id)
-                );
-
+        Produit produit = produitRepository.findById(id).orElseThrow(() -> new RuntimeException("No produit found with id " + id));
         return produitMapper.toDto(produit);
     }
 
-
     public Boolean deleteProduit(Integer id) {
-
-        produitRepository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("No produit found with id " + id)
-                );
-
+        produitRepository.findById(id).orElseThrow(() -> new RuntimeException("No produit found with id " + id));
         produitRepository.deleteById(id);
-
         return true;
+    }
+
+    public long countProducts(){
+        return  produitRepository.count();
     }
 }

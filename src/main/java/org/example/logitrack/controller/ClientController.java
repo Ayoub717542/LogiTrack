@@ -45,9 +45,15 @@ public class ClientController {
         return ResponseEntity.ok(clientService.getClientById(id)
         );
     }
-    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'AGENT')")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping("/deleteClient/{id}")
     public ResponseEntity<Boolean> deleteClient(@PathVariable Integer id) {
         return ResponseEntity.ok(clientService.deleteClient(id));
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
+    @GetMapping("/countClients")
+    public ResponseEntity<Long> countClients(){
+        return  ResponseEntity.ok(clientService.countClient());
     }
 }

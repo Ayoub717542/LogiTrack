@@ -49,4 +49,9 @@ public class ProduitController {
     public ResponseEntity<Boolean> deleteProduit(@PathVariable Integer id) {
         return ResponseEntity.ok(produitService.deleteProduit(id));
     }
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
+    @GetMapping("/countProducts")
+    public ResponseEntity<Long> countProducts(){
+        return  ResponseEntity.ok(produitService.countProducts());
+    }
 }

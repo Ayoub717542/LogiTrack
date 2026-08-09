@@ -26,6 +26,7 @@ public class Commande {
     private int id;
 
     private LocalDate dateCommande;
+
     @Enumerated(EnumType.STRING)
     private Statuts statut;
 

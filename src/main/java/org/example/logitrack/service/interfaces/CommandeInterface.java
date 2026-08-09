@@ -12,4 +12,7 @@ public interface CommandeInterface {
     Page<CommandeResponceDTO> getCommandesByClient(Integer clientId, Pageable pageable);
     Boolean deleteCommande(Integer id);
     CommandeResponceDTO updateStatus(Integer id, Statuts status);
+     long countPending();
+     long countShipped();
+     long countDelivered();
 }
