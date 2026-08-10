@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/products")
@@ -53,5 +55,11 @@ public class ProduitController {
     @GetMapping("/countProducts")
     public ResponseEntity<Long> countProducts(){
         return  ResponseEntity.ok(produitService.countProducts());
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','AGENT')")
+    @GetMapping("/getLowStockProducts")
+    public  ResponseEntity<List<ProduitResponceDTO>> getLowStockProducts(){
+        return  ResponseEntity.ok(produitService.getLowStockProducts());
     }
 }

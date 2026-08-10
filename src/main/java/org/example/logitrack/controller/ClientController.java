@@ -56,4 +56,9 @@ public class ClientController {
     public ResponseEntity<Long> countClients(){
         return  ResponseEntity.ok(clientService.countClient());
     }
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
+    @PutMapping("/updateClient/{id}")
+    public ResponseEntity<ClientResponceDTO> updateClient(@PathVariable int id , @RequestBody ClientRequestDTO clientRequestDTO){
+        return ResponseEntity.ok(clientService.updateClient(id,clientRequestDTO)) ;
+    }
 }

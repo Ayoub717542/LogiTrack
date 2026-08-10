@@ -4,12 +4,16 @@ import lombok.RequiredArgsConstructor;
 import org.example.logitrack.DTO.ProduitRequestDTO;
 import org.example.logitrack.DTO.ProduitResponceDTO;
 import org.example.logitrack.mapper.ProduitMapper;
+import org.example.logitrack.model.Client;
 import org.example.logitrack.model.Produit;
 import org.example.logitrack.repository.ProduitRepository;
 import org.example.logitrack.service.interfaces.ProduitInterface;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -42,5 +46,11 @@ public class ProduitService implements ProduitInterface {
 
     public long countProducts(){
         return  produitRepository.count();
+    }
+    public List<ProduitResponceDTO> getLowStockProducts() {
+        return  produitRepository.getLowStockProducts()
+                .stream()
+                .map(produitMapper::toDto )
+                .toList();
     }
 }

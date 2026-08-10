@@ -32,6 +32,18 @@ public class ClientService implements ClientInterface {
         return clientMapper.toDto(clientRepository.save(client));
     }
 
+    public ClientResponceDTO updateClient(int id,ClientRequestDTO clientRequestDTO){
+        Client client = clientRepository.findById(id).orElseThrow(()-> new RuntimeException("client not found"));
+
+        client.setNom(clientRequestDTO.getNom());
+        client.setEmail(clientRequestDTO.getEmail());
+        client.setTelephone(clientRequestDTO.getTelephone());
+
+        Client updatedClient = clientRepository.save(client);
+
+        return clientMapper.toDto(updatedClient);
+    }
+
     public Page<ClientResponceDTO> getAllClients(Pageable pageable) {
        return clientRepository.findAll(pageable)
         .map(client -> clientMapper.toDto(client));

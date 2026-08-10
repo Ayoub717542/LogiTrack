@@ -10,5 +10,6 @@ public interface ClientInterface {
     Page<ClientResponceDTO> getAllClients(Pageable pageable);
     ClientResponceDTO getClientById(Integer id);
     Boolean deleteClient(Integer id);
+    ClientResponceDTO updateClient(int id,ClientRequestDTO clientRequestDTO);
 
 }
