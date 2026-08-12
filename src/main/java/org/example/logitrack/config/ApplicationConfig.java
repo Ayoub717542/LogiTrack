@@ -20,9 +20,15 @@ public class ApplicationConfig {
     BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-    @Bean // to indicate to  Spring that  this method represent a bean
+    @Bean
     public UserDetailsService userDetailsService(){
         return  username ->  userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("user not found"));
+    }
+    @Bean
+    public AuthenticationManager authenticationManager(
+            AuthenticationConfiguration config) throws Exception{
+        return config.getAuthenticationManager();
+
     }
     @Bean
     public AuthenticationProvider authenticationProvider(
@@ -33,10 +39,5 @@ public class ApplicationConfig {
         return authenticationProvider;
     }
 
-    @Bean
-    public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration config) throws Exception{
-        return config.getAuthenticationManager();
 
-    }
 }
