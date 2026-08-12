@@ -31,7 +31,9 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
              http
-                     .exceptionHandling(ex -> ex.authenticationEntryPoint(authenticationEntryPoint()))
+                     .exceptionHandling(
+                             ex ->
+                                     ex.authenticationEntryPoint(authenticationEntryPoint()))
                      .cors(Customizer.withDefaults())
                      .csrf(customizer ->  customizer.disable())
                      .authorizeHttpRequests(request -> request
@@ -57,7 +59,8 @@ public class SecurityConfiguration {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:5173"));
+        config.setAllowedOrigins(List.of("http://localhost:5173" ,
+                                            "http://localhost:8081"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);

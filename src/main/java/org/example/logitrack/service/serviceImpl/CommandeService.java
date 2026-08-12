@@ -1,6 +1,8 @@
 package org.example.logitrack.service.serviceImpl;
 
 import lombok.RequiredArgsConstructor;
+import org.example.logitrack.DTO.ClientRequestDTO;
+import org.example.logitrack.DTO.ClientResponceDTO;
 import org.example.logitrack.DTO.CommandeRequestDTO;
 import org.example.logitrack.DTO.CommandeResponceDTO;
 import org.example.logitrack.Enums.Statuts;
@@ -30,6 +32,17 @@ public class CommandeService implements CommandeInterface {
         commande.setClient(client);
         return commandeMapper.toDto(commandeRepository.save(commande));
     }
+
+    public CommandeResponceDTO updateCommande(int id, CommandeRequestDTO commandeRequestDTO){
+        Commande commande = commandeRepository.findById(id).orElseThrow(()-> new RuntimeException("commande not found"));
+        commande.setDateCommande(commandeRequestDTO.getDateCommande());
+        commande.setStatut(commandeRequestDTO.getStatut());
+        Client client = clientRepository.findById(commandeRequestDTO.getClientId()).orElseThrow(()-> new RuntimeException("Client not found"));
+        commande.setClient(client);
+        Commande updatedClient = commandeRepository.save(commande);
+        return commandeMapper.toDto(updatedClient);
+    }
+
 
     public Page<CommandeResponceDTO> getAllCommandes(Pageable pageable) {
         return commandeRepository.findAll(pageable)
@@ -68,12 +81,16 @@ public class CommandeService implements CommandeInterface {
     public long countDelivered() {
         return commandeRepository.countByStatut(Statuts.DELIVERED);
     }
+    public long countCanceled() {
+        return commandeRepository.countByStatut(Statuts.CANCELLED);
+    }
     public long countCommandes(){
         return commandeRepository.count();
     }
 
-    public Page<Commande> RecentCommandes(Pageable pageable){
-        return commandeRepository.findRecentCommandes(pageable);
+    public Page<CommandeResponceDTO> RecentCommandes(Pageable pageable){
+        return commandeRepository.findRecentCommandes(pageable)
+                .map(commandeMapper::toDto);
     }
 
 

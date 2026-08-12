@@ -41,12 +41,18 @@ public class AuthenticationService {
     }
 
     public  AuthenticationResponceDTO login(AuthenticationRequestDTO authenticationRequestDTO) {
-       authenticationManager.authenticate(
-               new UsernamePasswordAuthenticationToken(
-                       authenticationRequestDTO.getUserEmail(),
-                       authenticationRequestDTO.getPassword()
-               )
-       );
+//    try {
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        authenticationRequestDTO.getUserEmail(),
+                        authenticationRequestDTO.getPassword()
+                )
+        );
+//    }catch (DisabledException e) {
+//        throw new RuntimeException(
+//                "Your account has been suspended. Please contact an administrator."
+//        );
+//    }
        User user = userRepository.findByEmail(authenticationRequestDTO.getUserEmail()).orElseThrow(() -> new UsernameNotFoundException("user not found!!"));
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponceDTO.builder()
