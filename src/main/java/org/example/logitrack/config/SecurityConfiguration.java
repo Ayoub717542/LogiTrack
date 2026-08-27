@@ -43,6 +43,10 @@ public class SecurityConfiguration {
                                      "/v3/api-docs/**",
                                      "/swagger-resources/**"
                              ).permitAll()
+                             .requestMatchers( "/actuator/health",
+                                     "/actuator/info",
+                                     "/actuator/metrics",
+                                     "/actuator/prometheus").permitAll()
                              .anyRequest().authenticated()
                      )
                      .sessionManagement(session ->
