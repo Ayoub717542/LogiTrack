@@ -1,0 +1,60 @@
+services:
+
+  db:
+    image: mysql:8.0
+    container_name: logitrack-db
+    environment:
+      MYSQL_ROOT_PASSWORD: AyoubHadi120
+      MYSQL_DATABASE: LogiTrack_db
+    ports:
+      - "3308:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - monitoring
+
+  logitrack:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: logitrack
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/LogiTrack_db?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: AyoubHadi120
+    networks:
+      - monitoring
+    depends_on:
+      - db
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus:/etc/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+    networks:
+      - monitoring
+    depends_on:
+      - logitrack
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    networks:
+      - monitoring
+    depends_on:
+      - prometheus
+
+networks:
+  monitoring:
+
+volumes:
+  mysql_data:
