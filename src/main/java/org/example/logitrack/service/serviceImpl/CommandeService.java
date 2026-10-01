@@ -1,8 +1,7 @@
 package org.example.logitrack.service.serviceImpl;
 
 import lombok.RequiredArgsConstructor;
-import org.example.logitrack.DTO.ClientRequestDTO;
-import org.example.logitrack.DTO.ClientResponceDTO;
+
 import org.example.logitrack.DTO.CommandeRequestDTO;
 import org.example.logitrack.DTO.CommandeResponceDTO;
 import org.example.logitrack.Enums.Statuts;
@@ -16,7 +15,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
